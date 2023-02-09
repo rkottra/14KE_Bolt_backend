@@ -22,5 +22,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 use App\Http\Controllers\TermekController;
+use App\Http\Controllers\KategoriaController;
 
 Route::resource("termek", TermekController::class)->except("edit","create");
+
+Route::resource("kategoria", KategoriaController::class)->only("index");

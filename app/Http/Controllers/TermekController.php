@@ -16,7 +16,7 @@ class TermekController extends Controller
      */
     public function index()
     {
-        return Termek::all();
+        return Termek::with('kategoria')->get();
     }
 
     /**
@@ -44,7 +44,7 @@ class TermekController extends Controller
      */
     public function show(Termek $termek)
     {
-        return $termek;
+        return Termek::where(["id"=> $termek->id])->with('kategoria')->first();
     }
 
     /**

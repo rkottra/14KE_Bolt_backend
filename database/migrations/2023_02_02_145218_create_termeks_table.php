@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string("nev");
             $table->text("leiras");
             $table->integer("ar");
+            $table->string("kepUrl");
             $table->double("kedvezmeny");
             $table->timestamps();
         });
