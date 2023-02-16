@@ -20,6 +20,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 
+use App\Http\Controllers\UserControl;
+Route::get('/login', [UserControl::class, 'login']);
+Route::get('/dashboard', [UserControl::class, 'dashboard'])->middleware(['auth:sanctum']);
+Route::post('/register', [UserControl::class, 'store']);
 
 use App\Http\Controllers\TermekController;
 use App\Http\Controllers\KategoriaController;
