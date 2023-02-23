@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\DB;
 
 class Kernel extends ConsoleKernel
 {
@@ -15,6 +16,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('sanctum:prune-expired --hours=0')->everyFiveMinutes();
+
+        /*$schedule->call(function () {
+            DB::table('personal_access_tokens')->delete();
+        })->everyMinute();*/
+
         // $schedule->command('inspire')->hourly();
     }
 

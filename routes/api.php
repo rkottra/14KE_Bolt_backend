@@ -21,8 +21,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 use App\Http\Controllers\UserControl;
-Route::get('/login', [UserControl::class, 'login']);
-Route::get('/dashboard', [UserControl::class, 'dashboard'])->middleware(['auth:sanctum']);
+use App\Http\Middleware\TokenRefresh;
+Route::post('/login', [UserControl::class, 'login']);
+Route::post('/logout', [UserControl::class, 'logout'])->middleware(['auth:sanctum']);
+Route::get('/dashboard', [UserControl::class, 'dashboard'])->middleware(['auth:sanctum', TokenRefresh::class]);
 Route::post('/register', [UserControl::class, 'store']);
 
 use App\Http\Controllers\TermekController;

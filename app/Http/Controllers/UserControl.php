@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
-
 class UserControl extends Controller
 {
     
@@ -22,16 +21,22 @@ class UserControl extends Controller
 
         if (Auth::attempt($credentials)) {
 
-            $token = $request->user()->createToken("asdas");
+            $token = $request->user()->createToken("kliens oldali token", ['*'], now()->addMinutes(config('sanctum.expiration')));
             return ['token' => $token->plainTextToken];
         }
 
         return response("Error", 515);
     }
 
+    public function logout(Request $request) {
+        $request->user()->currentAccessToken()->delete();
+    }
+
+
     public function dashboard()
     {
-        return "asdasdasd";
+        $s = "asdasd";
+        return ["valasz" => $s];
     }
     
 
