@@ -31,7 +31,13 @@ class TermekController extends Controller
         $seged->nev = $request->nev;
         $seged->leiras = $request->leiras;
         $seged->ar = $request->ar;
+        if ($request->has("kepUrl") && $seged->kepUrl != "") {
+            $seged->kepUrl = $request->kepUrl;
+        } else {
+            $seged->kepUrl = fake()->imageUrl(600, 480, 'cat');
+        }
         $seged->kedvezmeny = $request->kedvezmeny;
+        $seged->kategoriaid = $request->kategoriaid;
         $seged->save();
         return $seged;
     }
@@ -56,10 +62,12 @@ class TermekController extends Controller
      */
     public function update(UpdateTermekRequest $request, Termek $termek)
     {
-        $termek->nev = $request->nev;
-        $termek->leiras = $request->leiras;
-        $termek->ar = $request->ar;
-        $termek->kedvezmeny = $request->kedvezmeny;
+        if (request()->has('nev')) $termek->nev = $request->nev;
+        if (request()->has('leiras')) $termek->leiras = $request->leiras;
+        if (request()->has('ar')) $termek->ar = $request->ar;
+        if (request()->has('kepUrl')) $termek->kepUrl = $request->kepUrl;
+        if (request()->has('kedvezmeny')) $termek->kedvezmeny = $request->kedvezmeny;
+        if (request()->has('kategoriaid')) $termek->kategoriaid = $request->kategoriaid;
         $termek->save();
         return $termek;
     }
