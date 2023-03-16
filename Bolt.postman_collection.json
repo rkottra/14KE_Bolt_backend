@@ -1,0 +1,619 @@
+{
+	"info": {
+		"_postman_id": "bada5129-5457-4ee3-88f7-2d1b19c464b3",
+		"name": "Bolt",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19581324"
+	},
+	"item": [
+		{
+			"name": "Összes termék lekérdezése",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 500ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Van-e id-ja?\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].id);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Van-e nev-ja?\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].nev);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Az első elem id-ja nagyobb mint 0?\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].id).is.greaterThan(0);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Az első elem neve nem 1-es?\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].nev).not.to.eql(1);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Az első elem id-ja nem üres?\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].id).not.to.eql(\"\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Az első elem neve nem üres?\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].nev).not.to.eql(\"\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/termek",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"termek"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Új termék beszúrása",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 500ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Van-e id-ja?\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"id\") && pm.expect(jsonData.id);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Az elem neve egyenlő-e almával?\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"nev\") && pm.expect(jsonData.nev).to.eql(\"alma\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Az elem ára egyenlő-e 100-al?\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"ar\") && pm.expect(jsonData.ar*1).to.eql(100);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "nev",
+							"value": "alma",
+							"type": "text"
+						},
+						{
+							"key": "ar",
+							"value": "100",
+							"type": "text"
+						},
+						{
+							"key": "kedvezmeny",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "leiras",
+							"value": "Sok szép piros alma.",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8000/api/termek",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"termek"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Meglévő termék adatainak frissítése",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201 or 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 500ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Van-e id-ja?\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"id\") && pm.expect(jsonData.id);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Az elem neve egyenlő-e almával?\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"nev\") && pm.expect(jsonData.nev).to.eql(\"szilva\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Az elem ára egyenlő-e 100-al?\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"ar\") && pm.expect(jsonData.ar*1).to.eql(100);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "localhost:8000/api/termek/2?nev=szilva&ar=100&kedvezmeny=0.1&leiras=Sok szép piros szilva.",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"termek",
+						"2"
+					],
+					"query": [
+						{
+							"key": "nev",
+							"value": "szilva"
+						},
+						{
+							"key": "ar",
+							"value": "100"
+						},
+						{
+							"key": "kedvezmeny",
+							"value": "0.1"
+						},
+						{
+							"key": "leiras",
+							"value": "Sok szép piros szilva."
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Termék törlése",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201 or 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 500ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"1 jött vissza?\", function () {\r",
+							"    pm.expect(pm.response.text()).to.eql(\"1\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "localhost:8000/api/termek/9",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"termek",
+						"9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Új termék beszúrása Hibás adatokkal",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 500 vagy 404\", function () {\r",
+							"      pm.expect(pm.response.code).to.be.oneOf([500,404]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 500ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"A válasz nem json formátumú?\", function () {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).not.to.eql('application/json');\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "nev",
+							"value": "fű",
+							"type": "text"
+						},
+						{
+							"key": "ar",
+							"value": "10",
+							"type": "text"
+						},
+						{
+							"key": "kedvezmeny",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "leiras",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8000/api/termek",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"termek"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "konkrét termék adatainak lekérdezése",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 500ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Van-e id-ja?\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"id\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Az első elem id-ja nagyobb mint 0?\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.id).is.greaterThan(0);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Az első elem id-ja egyenlő-e 2-al?\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.id).to.eql(2);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Az első elem neve nem üres?\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"nev\") && pm.expect(jsonData.nev).not.to.eql(\"\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Az első elem ára nem üres?\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"ar\") && pm.expect(jsonData.ar).not.to.eql(\"\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/termek/2",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"termek",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "_token",
+						"value": "asdasd",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "localhost:8000/api/login?email=kottra.richard@jedlik.eu&password=123",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"login"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "kottra.richard@jedlik.eu"
+						},
+						{
+							"key": "password",
+							"value": "123"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Új felhasználó regisztrálása",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "localhost:8000/api/register?name=Kottra Richárd&email=kottra.richard@jedlik.eu&password=123",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"register"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Kottra Richárd"
+						},
+						{
+							"key": "email",
+							"value": "kottra.richard@jedlik.eu"
+						},
+						{
+							"key": "password",
+							"value": "123"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User adatai",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "3|qP2fBYH2Z5nf03LUpahFVYfhOkIQy78xXMHXO9RR",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/user",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "dashboard",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "7|sGtqre8ps08LYOUk38IhCr5oa7UYlA1HC0zQDrWt",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/dashboard",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"dashboard"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Védett adatok elérése",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "20|VVkUrFxjfwrvTl0UFNZTWaQki2iRxuBbcmvT6gSR",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/vedett",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"vedett"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "KAtegória id-k",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}

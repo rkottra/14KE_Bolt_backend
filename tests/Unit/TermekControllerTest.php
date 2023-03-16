@@ -34,7 +34,7 @@ class TermekControllerTest extends TestCase
      *
      * @return void
      */
-    public function test_kontroller_update()
+ /*   public function test_kontroller_update()
     {
         $this->setName("A termékKontroller update megfelelő mezőket ad-e vissza?");
 
@@ -63,10 +63,10 @@ class TermekControllerTest extends TestCase
             return (new \Illuminate\Routing\Route('PUT', '/api/termek', []))->bind($request);
         });
         var_dump(request());*/
-
+/*
         $eredmeny = $controller->update($myRequest, $termek);
         
         $termek = Termek::where(["id" => $id])->first();
         $this->assertEquals($termek->nev, "körte");
-    }
+    }*/
 }
